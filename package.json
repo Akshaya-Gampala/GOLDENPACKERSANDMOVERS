@@ -1,0 +1,25 @@
+{
+  "name": "golden-packers-and-movers",
+  "version": "1.0.0",
+  "description": "Full-Stack Web Application for Golden Packers and Movers",
+  "private": true,
+  "scripts": {
+    "setup": "npm run install:server && npm run install:client",
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "dev": "node -e \"console.log('Use npm run dev:server and npm run dev:client in separate terminals, or use npm run dev:all')\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && npm run seed",
+    "build:client": "cd client && npm run build"
+  },
+  "keywords": [
+    "packers-and-movers",
+    "express",
+    "react",
+    "mongodb",
+    "tailwind"
+  ],
+  "author": "Golden Packers and Movers",
+  "license": "ISC"
+}
