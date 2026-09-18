@@ -112,7 +112,7 @@ const Home = () => {
                 <div className="absolute -inset-2 rounded-3xl gold-gradient-bg opacity-30 blur-lg"></div>
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-white">
                   <img
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80"
+                    src="/images/goldenlogo.jpg"
                     alt="Golden Packers and Movers Truck & Warehouse Team"
                     className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700"
                   />
