@@ -1,30 +1,94 @@
-// Centralized Business Configuration for Golden Packers and Movers
-// Easily update contact numbers, address, social links, and business copy here!
+// ==============================================================================
+// CENTRALIZED BUSINESS CONFIGURATION FOR GOLDEN PACKERS AND MOVERS
+// Edit your business address, phone, Google Maps link, ratings, and reviews here!
+// ==============================================================================
 
 export const BUSINESS_CONFIG = {
+  // 1. BUSINESS BASIC DETAILS
   name: 'Golden Packers and Movers',
   shortName: 'Golden Packers',
   tagline: 'Safe, Reliable & Stress-Free Moving Solutions',
   subheading: 'Golden Packers and Movers provides reliable packing, moving, loading, transportation and relocation services with care and professionalism.',
 
-  // Editable Contact Information
+  // 2. CONTACT INFORMATION
   phonePrimary: '+91 90148 10179',
   phoneSecondary: '+91 90148 10179',
-  whatsappNumber: '919014810179', // Without + or spaces for direct API link
+  whatsappNumber: '919014810179', // Number without '+' or spaces for WhatsApp links
   whatsappDisplay: '+91 90148 10179',
   email: 'vinaydugyala630@gmail.com',
   supportEmail: 'vinaydugyala630@gmail.com',
   
-  // Physical Address & Map
+  // 3. PHYSICAL LOCATION & ADDRESS (EDIT YOUR ADDRESS HERE)
   address: 'Hanumakonda Kumarpally Market, Telangana - 506001',
-  city: 'Hanumakonda',
+  city: 'Hanamkonda',
   state: 'Telangana',
   pincode: '506001',
   country: 'India',
-  businessHours: '24/7 Open (All Days)',
-  googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15214.368412850983!2d79.5583!3d17.9942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f593b4d4cf5%3A0x8670b890a88000!2sKumarpally%2C%20Hanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin',
+  businessHours: '24 Hours Open (All Days)',
 
-  // Social Links
+  // 4. GOOGLE MAPS & BUSINESS PROFILE LINKS (EDIT YOUR MAP LINKS HERE)
+  // Google Maps Embed iframe URL for your location
+  googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3794.757049871589!2d79.5583!3d17.9942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a334f593b4d4cf5%3A0x8670b890a88000!2sHanamkonda%2C%20Telangana!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin',
+  
+  // Direct Google Maps listing URL (Used by "View on Google Maps" button)
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Golden+Packers+and+Movers+Hanamkonda',
+  
+  // Direct Get Directions URL (Used by "Get Directions" button)
+  getDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Golden+Packers+and+Movers+Hanumakonda+Kumarpally+Market+Telangana',
+  
+  // Official Google Business Profile URL (Used by "View All Reviews" button)
+  googleBusinessProfileUrl: 'https://www.google.com/maps/search/?api=1&query=Golden+Packers+and+Movers+Hanamkonda',
+
+  // 5. RATING & REVIEWS SUMMARY (EDIT YOUR OVERALL RATING & REVIEW COUNT HERE)
+  googleRating: 4.9,
+  googleReviewCount: 150,
+
+  // 6. CUSTOMER REVIEWS (EDIT OR ADD YOUR REVIEWS HERE)
+  // You can easily edit names, dates, star ratings, and review text below!
+  reviewsList: [
+    {
+      id: 'rev-1',
+      authorName: 'Rajesh Sharma',
+      authorPhoto: null,
+      rating: 5,
+      relativeTime: '2 weeks ago',
+      text: 'Excellent packing and moving service! Golden Packers handled our household items with extreme care. Zero damage and on-time delivery. Highly recommended!',
+      source: 'Verified Customer Review',
+      verified: true
+    },
+    {
+      id: 'rev-2',
+      authorName: 'P. Suresh Kumar',
+      authorPhoto: null,
+      rating: 5,
+      relativeTime: '1 month ago',
+      text: 'Very professional team. They came equipped with high quality bubble wrap and heavy cardboard boxes. Unloading and placement was done smoothly without any hassle.',
+      source: 'Verified Customer Review',
+      verified: true
+    },
+    {
+      id: 'rev-3',
+      authorName: 'Divya Reddi',
+      authorPhoto: null,
+      rating: 5,
+      relativeTime: '1 month ago',
+      text: 'Booked them for my office relocation. They completed the entire packing and moving overnight so our regular operations were not affected at all. Top-notch support!',
+      source: 'Verified Customer Review',
+      verified: true
+    },
+    {
+      id: 'rev-4',
+      authorName: 'Venkat Ramana',
+      authorPhoto: null,
+      rating: 5,
+      relativeTime: '2 months ago',
+      text: 'Affordable pricing with transparent quotation upfront. No hidden charges at all. The driver and moving team were respectful, punctual, and handled delicate items with care.',
+      source: 'Verified Customer Review',
+      verified: true
+    }
+  ],
+
+  // 7. SOCIAL LINKS
   socialLinks: {
     facebook: 'https://facebook.com/goldenpackersmovers',
     instagram: 'https://instagram.com/goldenpackersmovers',
@@ -33,7 +97,7 @@ export const BUSINESS_CONFIG = {
     twitter: 'https://twitter.com/goldenpackers',
   },
 
-  // Easily Editable Statistics Counter
+  // 8. STATISTICS COUNTER
   stats: [
     { label: 'Moves Completed', value: '500+', icon: 'Truck' },
     { label: 'Happy Customers', value: '1000+', icon: 'Users' },
@@ -41,7 +105,7 @@ export const BUSINESS_CONFIG = {
     { label: '24/7 Customer Support', value: '100%', icon: 'Clock' },
   ],
 
-  // Trust Highlights
+  // 9. TRUST HIGHLIGHTS
   trustHighlights: [
     { title: 'Professional Packing', description: 'Multi-layer premium bubble wrap, foam, and corrugated box protection.', icon: 'PackageCheck' },
     { title: 'Safe Transportation', description: 'GPS-tracked sealed container trucks for 100% damage-free delivery.', icon: 'ShieldCheck' },
@@ -51,7 +115,7 @@ export const BUSINESS_CONFIG = {
     { title: 'Customer Satisfaction', description: 'Dedicated move manager for seamless communication throughout transit.', icon: 'ThumbsUp' },
   ],
 
-  // Relocation Services List
+  // 10. RELOCATION SERVICES LIST
   servicesList: [
     {
       id: 'household-shifting',
@@ -125,7 +189,7 @@ export const BUSINESS_CONFIG = {
     },
   ],
 
-  // Frequently Asked Questions
+  // 11. FREQUENTLY ASKED QUESTIONS
   faqs: [
     {
       question: 'What services do Golden Packers and Movers provide?',

@@ -10,6 +10,9 @@ import {
   deleteGalleryItemApi,
   fetchContactMessagesApi,
   deleteContactMessageApi,
+  fetchAdminReviewsApi,
+  updateReviewStatusApi,
+  deleteReviewApi,
 } from '../services/api';
 import {
   FileText,
@@ -29,12 +32,17 @@ import {
   Tag,
   Calendar,
   AlertCircle,
+  Star,
+  Check,
+  XCircle,
+  ThumbsUp,
+  ThumbsDown,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { admin, logout } = useContext(AuthContext);
 
-  const [activeTab, setActiveTab] = useState('quotes'); // 'quotes' | 'gallery' | 'contact'
+  const [activeTab, setActiveTab] = useState('quotes'); // 'quotes' | 'gallery' | 'contact' | 'reviews'
 
   // Summary Stats State
   const [stats, setStats] = useState({
@@ -42,6 +50,8 @@ const AdminDashboard = () => {
     newQuotes: 0,
     completedQuotes: 0,
     totalGallery: 0,
+    pendingReviews: 0,
+    totalReviews: 0,
   });
 
   // Quotes State
@@ -68,6 +78,11 @@ const AdminDashboard = () => {
   // Contact Messages State
   const [contactMsgs, setContactMsgs] = useState([]);
   const [loadingContacts, setLoadingContacts] = useState(false);
+
+  // Reviews State
+  const [reviews, setReviews] = useState([]);
+  const [reviewFilterStatus, setReviewFilterStatus] = useState('All');
+  const [loadingReviews, setLoadingReviews] = useState(false);
 
   // Load Quotes Data
   const loadQuotes = async () => {
@@ -115,11 +130,32 @@ const AdminDashboard = () => {
     }
   };
 
+  // Load Reviews Data
+  const loadReviews = async () => {
+    setLoadingReviews(true);
+    try {
+      const res = await fetchAdminReviewsApi({ status: reviewFilterStatus });
+      setReviews(res.data.data);
+      if (res.data.stats) {
+        setStats((prev) => ({
+          ...prev,
+          pendingReviews: res.data.stats.pending,
+          totalReviews: res.data.stats.total,
+        }));
+      }
+    } catch (err) {
+      console.error('Failed to load admin reviews:', err);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
   useEffect(() => {
     loadQuotes();
     loadGallery();
     loadContactMessages();
-  }, [quoteFilterStatus]);
+    loadReviews();
+  }, [quoteFilterStatus, reviewFilterStatus]);
 
   // Handle Quote Status Change
   const handleStatusChange = async (quoteId, newStatus) => {
@@ -206,6 +242,27 @@ const AdminDashboard = () => {
     }
   };
 
+  // Handle Review Status Change (Approve / Reject)
+  const handleReviewStatusChange = async (reviewId, newStatus) => {
+    try {
+      await updateReviewStatusApi(reviewId, { status: newStatus });
+      loadReviews();
+    } catch (err) {
+      alert('Failed to update review status');
+    }
+  };
+
+  // Handle Delete Review
+  const handleDeleteReview = async (reviewId) => {
+    if (!window.confirm('Are you sure you want to permanently delete this customer review?')) return;
+    try {
+      await deleteReviewApi(reviewId);
+      loadReviews();
+    } catch (err) {
+      alert('Failed to delete review');
+    }
+  };
+
   return (
     <>
       <SEO title="Admin Dashboard" />
@@ -226,6 +283,7 @@ const AdminDashboard = () => {
                   loadQuotes();
                   loadGallery();
                   loadContactMessages();
+                  loadReviews();
                 }}
                 className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors"
               >
@@ -267,11 +325,11 @@ const AdminDashboard = () => {
 
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
               <div>
-                <p className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Completed Moves</p>
-                <p className="text-3xl font-extrabold text-emerald-600 mt-1">{stats.completedQuotes}</p>
+                <p className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Pending Reviews</p>
+                <p className="text-3xl font-extrabold text-orange-600 mt-1">{stats.pendingReviews}</p>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-                <CheckCircle className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center font-bold">
+                <Star className="w-6 h-6 fill-current" />
               </div>
             </div>
 
@@ -287,28 +345,42 @@ const AdminDashboard = () => {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-2">
+          <div className="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center gap-2">
             <button
               onClick={() => setActiveTab('quotes')}
-              className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'quotes' ? 'gold-gradient-bg text-slate-950 shadow-md' : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <FileText className="w-4 h-4" /> Quote Enquiries ({quotes.length})
+              <FileText className="w-4 h-4" /> Quotes ({quotes.length})
+            </button>
+
+            <button
+              onClick={() => setActiveTab('reviews')}
+              className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 relative ${
+                activeTab === 'reviews' ? 'gold-gradient-bg text-slate-950 shadow-md' : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <Star className="w-4 h-4" /> Customer Reviews ({reviews.length})
+              {stats.pendingReviews > 0 && (
+                <span className="px-2 py-0.5 text-[10px] bg-red-600 text-white font-extrabold rounded-full animate-pulse">
+                  {stats.pendingReviews} New
+                </span>
+              )}
             </button>
 
             <button
               onClick={() => setActiveTab('gallery')}
-              className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'gallery' ? 'gold-gradient-bg text-slate-950 shadow-md' : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <ImageIcon className="w-4 h-4" /> Manage Work Photos ({galleryItems.length})
+              <ImageIcon className="w-4 h-4" /> Gallery Photos ({galleryItems.length})
             </button>
 
             <button
               onClick={() => setActiveTab('contact')}
-              className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'contact' ? 'gold-gradient-bg text-slate-950 shadow-md' : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
@@ -516,6 +588,120 @@ const AdminDashboard = () => {
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           onClick={() => handleDeleteContact(msg._id)}
+                          className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold transition-colors flex items-center gap-1"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" /> Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 4: CUSTOMER REVIEWS MANAGEMENT */}
+          {activeTab === 'reviews' && (
+            <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-slate-900">Manage Customer Reviews</h2>
+                  <p className="text-xs text-slate-500">Approve customer feedback before it appears publicly on the website.</p>
+                </div>
+
+                {/* Filter Tabs */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  {['All', 'Pending', 'Approved', 'Rejected'].map((st) => (
+                    <button
+                      key={st}
+                      onClick={() => setReviewFilterStatus(st)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                        reviewFilterStatus === st
+                          ? 'bg-slate-900 text-amber-400'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {st}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {loadingReviews ? (
+                <div className="py-12 text-center text-slate-500 flex items-center justify-center gap-2 font-semibold">
+                  <Loader2 className="w-5 h-5 animate-spin text-amber-600" /> Loading customer reviews...
+                </div>
+              ) : reviews.length === 0 ? (
+                <div className="py-12 text-center text-slate-500 font-semibold bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+                  No reviews found for status "{reviewFilterStatus}".
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {reviews.map((rev) => (
+                    <div
+                      key={rev._id}
+                      className="p-6 rounded-2xl border border-slate-200 bg-white shadow-sm flex flex-col justify-between space-y-4 hover:border-amber-400 transition-colors"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < rev.rating ? 'text-amber-400 fill-amber-400' : 'text-slate-200'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span
+                            className={`px-2.5 py-1 rounded-full text-[11px] font-extrabold uppercase ${
+                              rev.status === 'approved'
+                                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                                : rev.status === 'rejected'
+                                ? 'bg-red-100 text-red-800 border border-red-300'
+                                : 'bg-amber-100 text-amber-900 border border-amber-300 animate-pulse'
+                            }`}
+                          >
+                            {rev.status}
+                          </span>
+                        </div>
+
+                        <p className="text-slate-800 text-sm font-medium leading-relaxed">
+                          "{rev.comment}"
+                        </p>
+
+                        <div className="text-xs text-slate-500 pt-2 border-t border-slate-100 flex items-center justify-between">
+                          <div>
+                            <span className="font-bold text-slate-900">— {rev.name}</span>
+                            {rev.email && <span className="text-slate-400 ml-1">({rev.email})</span>}
+                          </div>
+                          <span>{new Date(rev.createdAt).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+
+                      {/* Admin Actions */}
+                      <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+                        {rev.status !== 'approved' && (
+                          <button
+                            onClick={() => handleReviewStatusChange(rev._id, 'approved')}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors flex items-center gap-1 shadow-sm"
+                          >
+                            <Check className="w-3.5 h-3.5" /> Approve
+                          </button>
+                        )}
+
+                        {rev.status !== 'rejected' && (
+                          <button
+                            onClick={() => handleReviewStatusChange(rev._id, 'rejected')}
+                            className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold transition-colors flex items-center gap-1 shadow-sm"
+                          >
+                            <XCircle className="w-3.5 h-3.5" /> Reject
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => handleDeleteReview(rev._id)}
                           className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold transition-colors flex items-center gap-1"
                         >
                           <Trash2 className="w-3.5 h-3.5" /> Delete

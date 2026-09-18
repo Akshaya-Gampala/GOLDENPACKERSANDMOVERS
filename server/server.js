@@ -30,11 +30,13 @@ const authRoutes = require('./routes/authRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
 const galleryRoutes = require('./routes/galleryRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const reviewsRoutes = require('./routes/reviewsRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/quotes', quoteRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/reviews', reviewsRoutes);
 
 // Health & Status check endpoint
 app.get('/api/health', (req, res) => {

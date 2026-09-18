@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import SEO from '../components/SEO';
+import LocationSection from '../components/LocationSection';
+import ReviewsSection from '../components/ReviewsSection';
 import { BUSINESS_CONFIG } from '../config/business';
 import { submitContactApi } from '../services/api';
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle2, Loader2 } from 'lucide-react';
@@ -221,37 +223,51 @@ const Contact = () => {
               </form>
             </div>
 
-            {/* Address & Google Maps Embed */}
+            {/* Address & Quick Info */}
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200 space-y-6">
                 <h3 className="text-xl font-bold text-slate-900 border-b border-slate-100 pb-3">
-                  Main Office Location
+                  Main Office Headquarters
                 </h3>
 
                 <ul className="space-y-4 text-sm text-slate-600">
                   <li className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                    <span>{BUSINESS_CONFIG.address}</span>
+                    <span className="font-medium text-slate-800">{BUSINESS_CONFIG.address}</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Clock className="w-5 h-5 text-amber-500 shrink-0" />
-                    <span>{BUSINESS_CONFIG.businessHours}</span>
+                    <span className="font-medium text-slate-800">{BUSINESS_CONFIG.businessHours}</span>
                   </li>
                 </ul>
+
+                <div className="pt-2 flex flex-col gap-3">
+                  <a
+                    href={BUSINESS_CONFIG.getDirectionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 rounded-xl gold-gradient-bg text-slate-950 font-extrabold text-sm shadow-md flex items-center justify-center gap-2 hover:brightness-105 transition-all"
+                  >
+                    📍 Get Directions on Google Maps
+                  </a>
+                </div>
               </div>
 
-              {/* Google Map Section */}
-              <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 h-[280px]">
-                <iframe
-                  title="Golden Packers Location Map"
-                  src={BUSINESS_CONFIG.googleMapsEmbedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
+              {/* Quick Customer Support Box */}
+              <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-xl border border-slate-800 space-y-3">
+                <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                  ★ {BUSINESS_CONFIG.googleRating} Google Rated Service ({BUSINESS_CONFIG.googleReviewCount}+ Reviews)
+                </div>
+                <h4 className="text-lg font-bold text-white">Need Urgent Relocation Assistance?</h4>
+                <p className="text-slate-300 text-xs leading-relaxed">
+                  Call our 24/7 hotline directly or send us a message on WhatsApp for instant quote calculation.
+                </p>
+                <a
+                  href={`tel:${BUSINESS_CONFIG.phonePrimary}`}
+                  className="inline-block pt-2 text-amber-400 font-extrabold hover:text-amber-300 text-sm"
+                >
+                  Call Now: {BUSINESS_CONFIG.phonePrimary} →
+                </a>
               </div>
             </div>
 
@@ -259,6 +275,12 @@ const Contact = () => {
 
         </div>
       </section>
+
+      {/* Embedded Location Map Section */}
+      <LocationSection />
+
+      {/* Customer Reviews Section */}
+      <ReviewsSection />
     </>
   );
 };

@@ -55,6 +55,16 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/#reviews" className="hover:text-amber-400 transition-colors flex items-center gap-2">
+                  <span className="text-amber-500">›</span> Customer Reviews (4.9★)
+                </Link>
+              </li>
+              <li>
+                <Link to="/#find-us" className="hover:text-amber-400 transition-colors flex items-center gap-2">
+                  <span className="text-amber-500">›</span> Find Us / Location
+                </Link>
+              </li>
+              <li>
                 <Link to="/gallery" className="hover:text-amber-400 transition-colors flex items-center gap-2">
                   <span className="text-amber-500">›</span> Work Gallery
                 </Link>

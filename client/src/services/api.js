@@ -42,6 +42,13 @@ export const submitContactApi = (contactData) => API.post('/contact', contactDat
 export const fetchContactMessagesApi = () => API.get('/contact');
 export const deleteContactMessageApi = (id) => API.delete(`/contact/${id}`);
 
+// Reviews API
+export const submitReviewApi = (reviewData) => API.post('/reviews', reviewData);
+export const fetchPublicReviewsApi = () => API.get('/reviews');
+export const fetchAdminReviewsApi = (params) => API.get('/reviews/admin', { params });
+export const updateReviewStatusApi = (id, data) => API.put(`/reviews/${id}/status`, data);
+export const deleteReviewApi = (id) => API.delete(`/reviews/${id}`);
+
 // Auth API
 export const loginAdminApi = (credentials) => API.post('/auth/login', credentials);
 export const getAdminProfileApi = () => API.get('/auth/me');

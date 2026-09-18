@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import ServiceCard from '../components/ServiceCard';
 import LightboxModal from '../components/LightboxModal';
+import LocationSection from '../components/LocationSection';
+import ReviewsSection from '../components/ReviewsSection';
 import { BUSINESS_CONFIG } from '../config/business';
 import { fetchGalleryApi } from '../services/api';
 import {
@@ -250,6 +252,12 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Customer Reviews Section */}
+      <ReviewsSection />
+
+      {/* Google Location / Map Section */}
+      <LocationSection />
 
       {/* CTA Quote Banner */}
       <section className="py-16 gold-gradient-bg text-slate-950 relative overflow-hidden">
