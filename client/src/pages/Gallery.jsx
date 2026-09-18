@@ -9,14 +9,14 @@ const myGalleryImages = [
     id: "local-1",
     title: "Boxes for Packing",
     category: "Packing",
-    image: "/images/boxesforPacking.jpeg",
+    image: "/images/boxes.jpeg",
     description: "Professional packing services by Golden Packers and Movers.",
   },
   {
     id: "local-2",
     title: "Dining Table Packing",
     category: "Packing",
-    image: "/images/dinningTable Packing.jpeg",
+    image: "/images/dining-table.jpeg",
     description: "Safe and secure furniture packing.",
   },
   {
@@ -37,28 +37,28 @@ const myGalleryImages = [
     id: "local-5",
     title: "Safe Packing",
     category: "Packing",
-    image: "/images/safePacking.jpeg",
+    image: "/images/safe-packing.jpeg",
     description: "Secure packing for your valuable belongings.",
   },
   {
     id: "local-6",
     title: "Sofa Packing",
     category: "Packing",
-    image: "/images/sofa Packing.jpeg",
+    image: "/images/Sofa-packing.jpeg",
     description: "Professional sofa packing service.",
   },
   {
     id: "local-7",
     title: "Sofa Packing",
     category: "Packing",
-    image: "/images/Sofa packinggg.jpeg",
+    image: "/images/sofa-packing2.jpeg",
     description: "Safe and secure sofa packing.",
   },
   {
     id: "local-8",
     title: "Transportation",
     category: "Transportation",
-    image: "/images/Transportation.jpeg",
+    image: "/images/transportation.jpeg",
     description: "Reliable transportation service.",
   },
 ];
@@ -85,7 +85,7 @@ const Gallery = () => {
       setLoading(true);
       try {
         const res = await fetchGalleryApi(selectedCategory);
-        setGalleryItems(res.data.data);
+        setGalleryItems(myGalleryImages);
       } catch (error) {
         console.error('Failed to load gallery items:', error);
       } finally {
@@ -166,15 +166,13 @@ const Gallery = () => {
                 >
                   <div className="relative h-64 overflow-hidden bg-slate-900">
                     <img
-                      src={item.imageUrl}
+                      src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100"
-                      onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
-                      }}
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-slate-900/90 text-amber-400 border border-amber-500/40 backdrop-blur-md">
+                      <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-slate-900/90 text-amber-400 border border-amber-500/40 
+                      backdrop-blur-md">
                         {item.category}
                       </span>
                     </div>
