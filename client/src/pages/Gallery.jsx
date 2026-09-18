@@ -4,6 +4,64 @@ import LightboxModal from '../components/LightboxModal';
 import { fetchGalleryApi } from '../services/api';
 import { Layers, Calendar, Filter, Loader2, Sparkles, Image as ImageIcon } from 'lucide-react';
 
+const myGalleryImages = [
+  {
+    id: "local-1",
+    title: "Boxes for Packing",
+    category: "Packing",
+    image: "/images/boxesforPacking.jpeg",
+    description: "Professional packing services by Golden Packers and Movers.",
+  },
+  {
+    id: "local-2",
+    title: "Dining Table Packing",
+    category: "Packing",
+    image: "/images/dinningTable Packing.jpeg",
+    description: "Safe and secure furniture packing.",
+  },
+  {
+    id: "local-3",
+    title: "Packaging",
+    category: "Packing",
+    image: "/images/packaging.jpeg",
+    description: "Professional packing and relocation services.",
+  },
+  {
+    id: "local-4",
+    title: "Packing Service",
+    category: "Packing",
+    image: "/images/packing.jpeg",
+    description: "Safe packing for household items.",
+  },
+  {
+    id: "local-5",
+    title: "Safe Packing",
+    category: "Packing",
+    image: "/images/safePacking.jpeg",
+    description: "Secure packing for your valuable belongings.",
+  },
+  {
+    id: "local-6",
+    title: "Sofa Packing",
+    category: "Packing",
+    image: "/images/sofa Packing.jpeg",
+    description: "Professional sofa packing service.",
+  },
+  {
+    id: "local-7",
+    title: "Sofa Packing",
+    category: "Packing",
+    image: "/images/Sofa packinggg.jpeg",
+    description: "Safe and secure sofa packing.",
+  },
+  {
+    id: "local-8",
+    title: "Transportation",
+    category: "Transportation",
+    image: "/images/Transportation.jpeg",
+    description: "Reliable transportation service.",
+  },
+];
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
