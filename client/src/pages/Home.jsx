@@ -6,7 +6,6 @@ import LightboxModal from '../components/LightboxModal';
 import LocationSection from '../components/LocationSection';
 import ReviewsSection from '../components/ReviewsSection';
 import { BUSINESS_CONFIG } from '../config/business';
-import { fetchGalleryApi } from '../services/api';
 import {
   Truck,
   ShieldCheck,
@@ -30,15 +29,32 @@ const Home = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   useEffect(() => {
-    const loadFeaturedGallery = async () => {
-      try {
-        const res = await fetchGalleryApi('All');
-        setFeaturedWork(res.data.data.slice(0, 4));
-      } catch (error) {
-        console.error('Error loading home gallery preview', error);
-      }
-    };
-    loadFeaturedGallery();
+  setFeaturedWork([
+    {
+      id: 1,
+      imageUrl: "/images/boxes.jpeg",
+      title: "Professional Packing",
+      category: "Packing",
+    },
+    {
+      id: 2,
+      imageUrl: "/images/dining-table.jpeg",
+      title: "Furniture Moving",
+      category: "House Shifting",
+    },
+    {
+      id: 3,
+      imageUrl: "/images/packaging.jpeg",
+      title: "Safe Packaging",
+      category: "Packing",
+    },
+    {
+      id: 4,
+      imageUrl: "/images/packing.jpeg",
+      title: "Careful Packing & Moving",
+      category: "Packing",
+    },
+  ]);
   }, []);
 
   return (
