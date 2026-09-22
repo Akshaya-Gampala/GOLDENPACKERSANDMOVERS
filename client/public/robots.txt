@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://goldenpackersmovers.com/sitemap.xml
+Sitemap: https://goldenpackersmoverswrngl.in/sitemap.xml
