@@ -83,11 +83,20 @@ const Home = () => {
               {/* Action Buttons */}
               <div className="pt-4 flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4">
                 <a
-                  href={`tel:${BUSINESS_CONFIG.phonePrimary}`}
-                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-base sm:text-lg shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2 border-2 border-amber-300"
-                >
-                  <Phone className="w-6 h-6 fill-current" /> CALL NOW: {BUSINESS_CONFIG.phonePrimary}
-                </a>
+  href={`tel:${BUSINESS_CONFIG.phonePrimary}`}
+  onClick={() => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'call_click', {
+        event_category: 'engagement',
+        event_label: 'Call Now Button',
+      });
+    }
+  }}
+  className="..."
+>
+  <Phone className="w-6 h-6 fill-current" />
+  CALL NOW: {BUSINESS_CONFIG.phonePrimary}
+</a>
 
                 <a
                   href={`https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hello Golden Packers & Movers, I want to inquire about relocation.')}`}
